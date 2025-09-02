@@ -1,4 +1,5 @@
 import random
+from colorama import Fore, Style, init
 
 def generate_joke(keywords):
     """Generate a simple joke using given keywords."""
@@ -24,13 +25,14 @@ def generate_code_joke(keywords):
 
 
 def main():
+    init(autoreset=True, strip=False)
     raw = input("Inserisci 2-3 parole chiave separate da virgola: ")
     keywords = [w.strip() for w in raw.split(',') if w.strip()]
     mode = input("Modalità (normale/codice): ").strip().lower()
     if mode.startswith('c'):
-        print(generate_code_joke(keywords))
+        print(Fore.GREEN + generate_code_joke(keywords))
     else:
-        print(generate_joke(keywords))
+        print(Fore.CYAN + Style.BRIGHT + generate_joke(keywords))
 
 
 if __name__ == "__main__":
