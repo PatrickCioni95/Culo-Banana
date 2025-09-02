@@ -1,3 +1,4 @@
+import argparse
 import random
 
 def generate_joke(keywords):
@@ -23,10 +24,24 @@ def generate_code_joke(keywords):
     )
 
 
-def main():
-    raw = input("Inserisci 2-3 parole chiave separate da virgola: ")
-    keywords = [w.strip() for w in raw.split(',') if w.strip()]
-    mode = input("Modalità (normale/codice): ").strip().lower()
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description="Generatore di barzellette")
+    parser.add_argument("--keywords", nargs="+", help="Parole chiave per la barzelletta")
+    parser.add_argument("--mode", choices=["normale", "codice"], help="Modalità della barzelletta")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    keywords = args.keywords
+    if not keywords:
+        raw = input("Inserisci 2-3 parole chiave separate da virgola: ")
+        keywords = [w.strip() for w in raw.split(',') if w.strip()]
+    mode = args.mode
+    if not mode:
+        mode = input("Modalità (normale/codice): ").strip().lower()
+    else:
+        mode = mode.lower()
     if mode.startswith('c'):
         print(generate_code_joke(keywords))
     else:
