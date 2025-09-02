@@ -24,10 +24,20 @@ def generate_code_joke(keywords):
 
 
 def main():
-    raw = input("Inserisci 2-3 parole chiave separate da virgola: ")
-    keywords = [w.strip() for w in raw.split(',') if w.strip()]
-    mode = input("Modalità (normale/codice): ").strip().lower()
-    if mode.startswith('c'):
+    while True:
+        raw = input("Inserisci 2-3 parole chiave separate da virgola: ")
+        keywords = [w.strip() for w in raw.split(',') if w.strip()]
+        if len(keywords) >= 2:
+            break
+        print("Per favore inserisci almeno due parole chiave.")
+
+    while True:
+        mode = input("Modalità (normale/codice): ").strip().lower()
+        if mode in {"normale", "codice"}:
+            break
+        print("Modalità non valida. Inserisci 'normale' o 'codice'.")
+
+    if mode == "codice":
         print(generate_code_joke(keywords))
     else:
         print(generate_joke(keywords))

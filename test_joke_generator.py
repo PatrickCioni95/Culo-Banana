@@ -12,3 +12,21 @@ def test_code_joke_format():
     for w in words:
         assert w in code
     assert "if" in code and "print" in code
+
+
+def test_main_invalid_keywords(monkeypatch, capsys):
+    inputs = iter(["pizza", "pizza,gatto", "normale"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    jg.main()
+    captured = capsys.readouterr().out
+    assert "Per favore inserisci almeno due parole chiave." in captured
+    assert "pizza" in captured and "gatto" in captured
+
+
+def test_main_invalid_mode(monkeypatch, capsys):
+    inputs = iter(["pizza,gatto", "pippo", "codice"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    jg.main()
+    captured = capsys.readouterr().out
+    assert "Modalità non valida" in captured
+    assert "if" in captured
